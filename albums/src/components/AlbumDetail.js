@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
-import Card from './Card.js'
+import Card from './Card.js';
 
 const AlbumDetail = (props) => {
     return (
