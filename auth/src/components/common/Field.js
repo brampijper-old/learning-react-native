@@ -1,13 +1,14 @@
 import React from 'react';
 import {TextInput, View, Text } from 'react-native';
 
-const Field = ({ label, onChangeText, placeholder, capitalize }) => {
+const Field = ({ label, onChangeText, placeholder, capitalize, secureTextEntry }) => {
     const { fieldStyle, labelStyle, containerStyle } = styles; 
 
     return (
         <View style={containerStyle}>
             <Text style={labelStyle}>{label}</Text>
             <TextInput
+                secureTextEntry={secureTextEntry}
                 autoCapitalize={capitalize}
                 placeholder={placeholder}
                 autoCorrect={false}
