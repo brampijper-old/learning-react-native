@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import firebase from 'firebase';   
-import { Header, Button, Spinner, CardSection } from './components/common';
+import { Header, Button, Spinner, CardSection, Field } from './components/common';
 import LoginForm from './components/LoginForm'; 
 
 class App extends Component {
 
-    state = { loggedIn: null }; 
+    state = { loggedIn: null, email: '' }; 
 
     componentWillMount() {
         firebase.initializeApp({
@@ -27,20 +27,57 @@ class App extends Component {
         }); 
     }
 
+    onUpdatePress() {
+        const { email } = this.state;
+
+        const user = firebase.auth().currentUser;
+
+        user.updateEmail(email).then(() => {
+          console.log('succesfully changed email to', email);
+        }).catch((error) => {
+          console.log(error); 
+        });
+    }
+
+    renderUserInfo() {
+        const user = firebase.auth().currentUser;
+
+        if (user != null) {
+            return (
+                <Field 
+                    placeholder={user.email} 
+                    label=" Your Email:" 
+                    onChangeText={email => this.setState({ email })}
+                /> 
+            );
+        }
+    }
+
     renderContent() {
         switch (this.state.loggedIn) {
             
             case true:
                 return (
-                    <CardSection>
+                    <View>
+                        <CardSection>
+                            { this.renderUserInfo() }
+                        </CardSection>
+                        
+                        <CardSection>
+                        <Button onPress={this.onUpdatePress.bind(this)}>
+                            Change email
+                        </Button>
                         <Button onPress={() => firebase.auth().signOut()}>
                             Log Out
                         </Button>
-                    </CardSection>
+                        </CardSection>
+                    </View>
                 );
             
             case false:
-                return <LoginForm />; 
+                return (
+                    <LoginForm />
+                ); 
             
             default:
                 return (
@@ -55,7 +92,7 @@ class App extends Component {
         return (
             <View>
                 <Header headerText='Authentication' /> 
-                    { this.renderContent() }          
+                { this.renderContent() }          
             </View>
         );
     }
