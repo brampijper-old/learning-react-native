@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextInput, View, Text } from 'react-native';
+import { TextInput, View, Text } from 'react-native';
 
 const Field = ({ label, onChangeText, placeholder, capitalize, secureTextEntry }) => {
     const { fieldStyle, labelStyle, containerStyle } = styles; 
