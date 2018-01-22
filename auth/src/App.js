@@ -35,6 +35,7 @@ class App extends Component {
     //Use Firebase to check if it's possible the change the user his emailadress.
     changeEmail() {
         const { email } = this.state;
+
         const user = firebase.auth().currentUser;
         const credential = firebase.auth.EmailAuthProvider.credential(
             user.email,
@@ -56,21 +57,22 @@ class App extends Component {
 
     //Shows message if user updates his emailadress.
     showAirmsg() {
+        const { error } = this.state; 
         switch (this.state.updateEmail) {
 
         case true:
             return (
-                    <Text> { this.state.error } </Text>
+                    <Text> { error } </Text>
             );
 
         case false:
             return (
-                <Text> { this.state.error } </Text>
+                <Text> { error } </Text>
             );
         
         default:
             return (
-                    <Text> { this.state.error } </Text>
+                    <Text> { error } </Text>
             );
         }
     }
