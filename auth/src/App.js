@@ -5,8 +5,7 @@ import { Header, Button, Spinner, CardSection, Field } from './components/common
 import LoginForm from './components/LoginForm'; 
 
 class App extends Component {
-
-    state = { loggedIn: null, email: '', updateEmail: null, error: '', password: '' }; 
+    state = { loggedIn: null, updatedEmail: '', updateEmail: null, error: '', password: '', originalEmail: '' }; 
 
     componentWillMount() {
         firebase.initializeApp({
@@ -20,7 +19,8 @@ class App extends Component {
         
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                this.setState({ loggedIn: true });
+                this.setState({ loggedIn: true, originalEmail: user.email });
+                console.log(user.email);
             } else {
                 this.setState({ loggedIn: false });
             }
@@ -28,29 +28,36 @@ class App extends Component {
     }
 
     onLogOut() {
-        this.setState({ error: '' }); 
+        this.setState({ error: '', originalEmail: '' }); 
         firebase.auth().signOut();
     }
 
     //Use Firebase to check if it's possible the change the user his emailadress.
     changeEmail() {
-        const { email } = this.state;
+        const { updatedEmail, originalEmail, password } = this.state;
 
         const user = firebase.auth().currentUser;
         const credential = firebase.auth.EmailAuthProvider.credential(
-            user.email,
-            this.state.password
+            originalEmail,
+            password
         );
 
-        user.updateEmail(email).then(() => {
+        user.updateEmail(updatedEmail).then(() => {
             user.reauthenticateWithCredential(credential).then(() => {
                 this.setState({ updateEmail: true, error: 'Email succesfully updated' }); 
             }).catch((error) => {
+                console.log(user.email);
+                console.log(updatedEmail); 
+                console.log(originalEmail); 
                 console.log(error);
                 this.setState({ updateEmail: false, error: 'Wrong password' });
             }); 
         }).catch((error) => {
-            this.setState({ error: 'Session ended, please log-in again!' }); 
+            if (error.code === 'auth/invalid-email') {
+                this.setState({ error: 'Your new emailadress is invalid' }); 
+            } else {
+                this.setState({ error: 'this is a firebase error' }); 
+            }
              console.log(error); 
         });
     }
@@ -90,7 +97,7 @@ class App extends Component {
                                 capitalize="none"
                                 placeholder={user.email} 
                                 label=" Your Email:" 
-                                onChangeText={email => this.setState({ email })}
+                                onChangeText={updatedEmail => this.setState({ updatedEmail })}
                             />
                         </CardSection>
 
