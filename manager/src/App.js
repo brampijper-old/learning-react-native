@@ -1,4 +1,4 @@
-import React, { Component } from 'React';
+import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
@@ -19,7 +19,7 @@ class App extends Component {
     }
 
     render() {
-        return(
+        return (
             <Provider store={createStore(reducers)}>
                 <View>
                     <Text>
