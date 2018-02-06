@@ -1,5 +1,5 @@
 # Combined Repo for tutorials on learning React-Native
-This repo consists of project I made when following the React Native tutorials on Udemy.
+This repo consists of projects I made when following the React Native tutorials on Udemy.
 
 #Album Project:
 The first project was made to explore the options in react native and covered the re-usable components, props and states.
