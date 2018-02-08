@@ -6,3 +6,5 @@ export const LOGIN_USER_START = 'login_user_start';
 
 export const EMPLOYEE_UPDATE = 'employee_update';
 export const EMPLOYEE_CREATE = 'employee_create';
+export const EMPLOYEE_FETCH_SUCCES = 'employee_fetch_succes';
+
