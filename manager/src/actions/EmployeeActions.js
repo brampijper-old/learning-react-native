@@ -29,7 +29,7 @@ export const employeeFetch = () => {
     return (dispatch) => {
         firebase.database().ref(`users/${currentUser.uid}/employees`)
             .on('value', snapshot => {
-                dispatch({ EMPLOYEE_FETCH_SUCCES, payload: snapshot.val() }); 
+                dispatch({ type: EMPLOYEE_FETCH_SUCCES, payload: snapshot.val() }); 
             }); 
     };
 };
